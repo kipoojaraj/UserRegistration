@@ -53,33 +53,33 @@ export const loginUser: RequestHandler = async (req: Request, res: Response): Pr
 
 // Get All Users with Pagination, Search, Sort, and Filter by Gender
 export const getAllUsers: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-    // Extract query parameters for pagination, search, sort, and filter
+    
     const { page = 1, limit = 10, search, gender, sort = 'username', order = 'asc' } = req.query;
 
     // Convert `page` and `limit` to numbers
     const pageNumber = Number(page);
     const limitNumber = Number(limit);
-    const skip = (pageNumber - 1) * limitNumber; // Calculate the number of documents to skip
+    const skip = (pageNumber - 1) * limitNumber; 
 
-    // Build query object
+    
     let query: any = {};
     if (search) {
-        query.username = { $regex: search, $options: 'i' }; // Case insensitive search on username
+        query.username = { $regex: search, $options: 'i' }; 
     }
     if (gender) {
         query.gender = gender; // Filter by gender
     }
 
     try {
-        // Fetch users with pagination, search, sort, and gender filter
-        const users = await User.find(query, { password: 0 }) // Exclude password
+        
+        const users = await User.find(query, { password: 0 }) 
             .skip(skip)
             .limit(limitNumber);
 
-        // Get total count of users for pagination info
+        
         const totalUsers = await User.countDocuments(query);
 
-        // Prepare response data
+        
         res.status(200).json({
             message: 'Users fetched successfully',
             data: users,
@@ -133,15 +133,15 @@ export const deleteUser: RequestHandler = async (req: Request, res: Response): P
 
 // Update User
 export const updateUser: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-    const { id } = req.params; // Extract user ID from URL parameters
-    const { username, age, gender, address } = req.body; // Extract updated user data from request body
+    const { id } = req.params; 
+    const { username, age, gender, address } = req.body; 
 
     try {
-        // Find user by ID and update their details, excluding password
+        
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { username, age, gender, address }, // Fields to update
-            { new: true, runValidators: true } // Return updated document and run validation
+            { username, age, gender, address }, 
+            { new: true, runValidators: true } 
         );
 
         if (!updatedUser) {

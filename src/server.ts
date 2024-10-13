@@ -9,8 +9,8 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // Middleware for parsing JSON
-app.use('/api/users', userRoutes); // User routes
+app.use(express.json()); 
+app.use('/api/users', userRoutes); 
 
 const PORT = process.env.PORT || 5000;
 

@@ -11,7 +11,6 @@ import authMiddleware from '../middlewares/authMiddleware';
 
 const router = Router();
 
-// Cast each function to RequestHandler
 router.post('/register', registerUser as RequestHandler); 
 router.post('/login', loginUser as RequestHandler);
 router.get('/',authMiddleware as RequestHandler, getAllUsers);
